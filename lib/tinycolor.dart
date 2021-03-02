@@ -2,19 +2,17 @@ import 'dart:math' as Math;
 import 'dart:ui';
 
 import 'package:flutter/painting.dart';
-import 'package:meta/meta.dart';
-import 'package:pigment/pigment.dart';
 
 import 'conversion.dart';
 import 'hsl_color.dart';
 import 'util.dart';
 
-export 'hsl_color.dart';
 export 'color_extension.dart';
+export 'hsl_color.dart';
 
 class TinyColor {
-  Color originalColor;
-  Color _color;
+  late final Color originalColor;
+  late final Color _color;
 
   TinyColor(Color color) {
     this.originalColor =
@@ -23,8 +21,12 @@ class TinyColor {
         Color.fromARGB(color.alpha, color.red, color.green, color.blue);
   }
 
-  factory TinyColor.fromRGB(
-      {@required int r, @required int g, @required int b, int a = 100}) {
+  factory TinyColor.fromRGB({
+    required int r,
+    required int g,
+    required int b,
+    int a = 100,
+  }) {
     return TinyColor(Color.fromARGB(a, r, g, b));
   }
 
@@ -34,10 +36,6 @@ class TinyColor {
 
   factory TinyColor.fromHSV(HSVColor hsv) {
     return TinyColor(hsv.toColor());
-  }
-
-  factory TinyColor.fromString(String string) {
-    return TinyColor(Pigment.fromString(string));
   }
 
   bool isDark() {
@@ -142,7 +140,7 @@ class TinyColor {
     return TinyColor.fromHSL(hsl);
   }
 
-  TinyColor mix({@required Color input, int amount = 50}) {
+  TinyColor mix({required Color input, int amount = 50}) {
     final int p = (amount / 100).round();
     final color = Color.fromARGB(
         (input.alpha - _color.alpha) * p + _color.alpha,
